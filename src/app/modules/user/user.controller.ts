@@ -1,7 +1,6 @@
 /* eslint-disable prettier/prettier */
 // req & res manage
 
-import { NextFunction, Request, Response } from 'express';
 import { userService } from './user.service';
 import sendResponse from '../../utils/sendResponse';
 import { StatusCodes } from 'http-status-codes';
@@ -29,25 +28,17 @@ const getUser = catchAsync(async (req, res) => {
   });
 });
 
-const getSingleUser = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const userId = req.params.userId;
+const getSingleUser = catchAsync(async (req, res) => {
+  const userId = req.params.userId;
 
-    const result = await userService.getSingleUser(userId);
+  const result = await userService.getSingleUser(userId);
 
-    sendResponse(res, {
-      statusCode: StatusCodes.OK,
-      message: 'Single User getting successfully',
-      data: result,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    message: 'Single User getting successfully',
+    data: result,
+  });
+});
 
 const updateUser = catchAsync(async (req, res) => {
   const userId = req.params.userId;
